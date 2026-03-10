@@ -57,23 +57,23 @@ const useScrollAnimation = (threshold = 0.1) => {
 // --- Animation Variants ---
 
 const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } }
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: 'easeOut' } }
 };
 
 const fadeInLeft = {
-  hidden: { opacity: 0, x: -30 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: 'easeOut' } }
+  hidden: { opacity: 0, x: -20 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.3, ease: 'easeOut' } }
 };
 
 const fadeInRight = {
-  hidden: { opacity: 0, x: 30 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: 'easeOut' } }
+  hidden: { opacity: 0, x: 20 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.3, ease: 'easeOut' } }
 };
 
 const scaleIn = {
-  hidden: { opacity: 0, scale: 0.9 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.3, ease: 'easeOut' } }
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.25, ease: 'easeOut' } }
 };
 
 const staggerContainer = {
@@ -81,15 +81,15 @@ const staggerContainer = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.05
+      staggerChildren: 0.08,
+      delayChildren: 0.03
     }
   }
 };
 
 const staggerItem = {
-  hidden: { opacity: 0, y: 15 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: 'easeOut' } }
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.25, ease: 'easeOut' } }
 };
 
 // --- Components ---
@@ -525,6 +525,21 @@ const HomePage = () => {
   );
 };
 
+const CoursesPage = () => {
+  const { ref, controls } = useScrollAnimation();
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={staggerContainer}
+      className="animate-in fade-in slide-in-from-right-4 duration-700 pb-20"
+    >
+      <CourseGrid />
+    </motion.div>
+  );
+};
+
 const Footer = () => (
   <footer className="px-8 py-12 bg-white border-t border-slate-100">
     <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
@@ -548,22 +563,49 @@ const Footer = () => (
 
 // --- Page: About ---
 
-const AboutPage = () => (
-  <div className="animate-in fade-in slide-in-from-right-4 duration-700 pb-20">
-    <header className="px-8 py-24 bg-slate-900 text-white relative overflow-hidden">
-      <div className="max-w-4xl mx-auto text-center relative z-10">
-        <h1 className="text-5xl md:text-7xl font-black mb-8 tracking-tighter">We build the <span className="text-indigo-400">future</span> workforce.</h1>
-        <p className="text-xl text-slate-400 font-medium leading-relaxed">EduVibe is more than a platform. It's a technical ecosystem designed to take you from zero to industry-ready in record time.</p>
-      </div>
-      <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-indigo-500 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-violet-500 rounded-full blur-[120px]" />
-      </div>
-    </header>
+const AboutPage = () => {
+  const { ref, controls } = useScrollAnimation();
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={staggerContainer}
+      className="animate-in fade-in slide-in-from-right-4 duration-700 pb-20"
+    >
+      <motion.header
+        variants={fadeInUp}
+        className="px-8 py-24 bg-slate-900 text-white relative overflow-hidden"
+      >
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <motion.h1
+            variants={fadeInUp}
+            className="text-5xl md:text-7xl font-black mb-8 tracking-tighter"
+          >
+            We build the <span className="text-indigo-400">future</span> workforce.
+          </motion.h1>
+          <motion.p
+            variants={fadeInUp}
+            className="text-xl text-slate-400 font-medium leading-relaxed"
+          >
+            EduVibe is more than a platform. It's a technical ecosystem designed to take you from zero to industry-ready in record time.
+          </motion.p>
+        </div>
+        <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-indigo-500 rounded-full blur-[120px]" />
+          <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-violet-500 rounded-full blur-[120px]" />
+        </div>
+      </motion.header>
 
     {/* Section 1: Core Values */}
-    <section className="px-8 py-24 max-w-6xl mx-auto grid md:grid-cols-2 gap-20 items-center border-b border-slate-100">
-      <div className="grid grid-cols-2 gap-4">
+    <motion.section
+      variants={fadeInUp}
+      className="px-8 py-24 max-w-6xl mx-auto grid md:grid-cols-2 gap-20 items-center border-b border-slate-100"
+    >
+      <motion.div
+        variants={fadeInLeft}
+        className="grid grid-cols-2 gap-4"
+      >
         <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=400" className="rounded-3xl shadow-2xl" alt="Team" />
         <div className="space-y-4 pt-12">
           <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=400" className="rounded-3xl shadow-2xl" alt="Office" />
@@ -572,43 +614,85 @@ const AboutPage = () => (
             <p className="text-xs font-bold uppercase tracking-widest opacity-70">Job Placement Rate</p>
           </div>
         </div>
-      </div>
-      <div>
+      </motion.div>
+      <motion.div
+        variants={fadeInRight}
+      >
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-50 border border-violet-100 text-violet-600 text-[10px] font-black uppercase tracking-[0.2em] mb-6">
           <Sparkles className="w-3 h-3" /> Our Philosophy
         </div>
-        <h2 className="text-4xl font-black text-slate-900 mb-6 leading-tight">Educational high-fidelity for everyone.</h2>
-        <p className="text-slate-600 mb-8 font-medium leading-relaxed">We believe that high-quality education shouldn't be gated by geography or high-interest student loans. Our curriculum is built by current practitioners working at the world's leading tech companies.</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <motion.h2
+          variants={fadeInUp}
+          className="text-4xl font-black text-slate-900 mb-6 leading-tight"
+        >
+          Educational high-fidelity for everyone.
+        </motion.h2>
+        <motion.p
+          variants={fadeInUp}
+          className="text-slate-600 mb-8 font-medium leading-relaxed"
+        >
+          We believe that high-quality education shouldn't be gated by geography or high-interest student loans. Our curriculum is built by current practitioners working at the world's leading tech companies.
+        </motion.p>
+        <motion.div
+          variants={staggerContainer}
+          className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+        >
           {[
             { icon: Heart, title: "Student First", desc: "Every module is refined based on student feedback." },
             { icon: Globe, title: "Global Network", desc: "Connect with peers from 140+ countries." }
           ].map((item, i) => (
-            <div key={i}>
+            <motion.div
+              key={i}
+              variants={scaleIn}
+              className=""
+            >
               <item.icon className="w-6 h-6 text-indigo-600 mb-3" />
               <h4 className="font-bold text-slate-900 mb-1">{item.title}</h4>
               <p className="text-slate-500 text-sm font-medium">{item.desc}</p>
-            </div>
+            </motion.div>
           ))}
-        </div>
-      </div>
-    </section>
+        </motion.div>
+      </motion.div>
+    </motion.section>
 
     {/* New Section 2: Timeline/Milestones */}
-    <section className="px-8 py-24 bg-slate-50">
+    <motion.section
+      variants={fadeInUp}
+      className="px-8 py-24 bg-slate-50"
+    >
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-black text-slate-900 mb-4">Our Journey</h2>
-          <p className="text-slate-500 font-medium italic">From a small Discord server to a global learning hub.</p>
-        </div>
-        <div className="space-y-12 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-200 before:to-transparent">
+        <motion.div
+          variants={fadeInUp}
+          className="text-center mb-16"
+        >
+          <motion.h2
+            variants={fadeInUp}
+            className="text-3xl font-black text-slate-900 mb-4"
+          >
+            Our Journey
+          </motion.h2>
+          <motion.p
+            variants={fadeInUp}
+            className="text-slate-500 font-medium italic"
+          >
+            From a small Discord server to a global learning hub.
+          </motion.p>
+        </motion.div>
+        <motion.div
+          variants={staggerContainer}
+          className="space-y-12 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-200 before:to-transparent"
+        >
           {[
             { year: "2023", title: "The Inception", desc: "Founded in San Francisco by three engineering leads who were tired of outdated bootcamps." },
             { year: "2024", title: "10,000 Milestone", desc: "We crossed our first 10k student mark and launched our signature UI/UX Mastery course." },
             { year: "2025", title: "Enterprise Launch", desc: "Partnered with tech giants to provide internal training for Fortune 500 engineering teams." },
             { year: "2026", title: "EduVibe AI", desc: "Integrated personalized AI tutoring to provide 24/7 support for every learner." },
           ].map((m, i) => (
-            <div key={i} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+            <motion.div
+              key={i}
+              variants={scaleIn}
+              className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group"
+            >
               <div className="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-slate-200 text-slate-900 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300">
                 <CheckCircle className="w-4 h-4" />
               </div>
@@ -619,28 +703,58 @@ const AboutPage = () => (
                 <div className="text-slate-900 font-bold mb-1">{m.title}</div>
                 <div className="text-slate-500 text-sm font-medium">{m.desc}</div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
 
     {/* New Section 3: Leadership/Team */}
-    <section className="px-8 py-24 max-w-6xl mx-auto">
-      <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
+    <motion.section
+      variants={fadeInUp}
+      className="px-8 py-24 max-w-6xl mx-auto"
+    >
+      <motion.div
+        variants={fadeInUp}
+        className="flex flex-col md:flex-row justify-between items-end mb-16 gap-4"
+      >
         <div className="max-w-xl">
-          <h2 className="text-3xl font-black text-slate-900 mb-4">Meet the Visionaries</h2>
-          <p className="text-slate-500 font-medium">Our team consists of former leads from Google, Meta, and Stripe, dedicated to democratizing high-end technical skills.</p>
+          <motion.h2
+            variants={fadeInUp}
+            className="text-3xl font-black text-slate-900 mb-4"
+          >
+            Meet the Visionaries
+          </motion.h2>
+          <motion.p
+            variants={fadeInUp}
+            className="text-slate-500 font-medium"
+          >
+            Our team consists of former leads from Google, Meta, and Stripe, dedicated to democratizing high-end technical skills.
+          </motion.p>
         </div>
-        <button className="px-6 py-3 bg-slate-900 text-white font-bold rounded-xl text-xs uppercase tracking-widest">Join our team</button>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+        <motion.button
+          variants={scaleIn}
+          whileHover={{ scale: 1.05 }}
+          className="px-6 py-3 bg-slate-900 text-white font-bold rounded-xl text-xs uppercase tracking-widest"
+        >
+          Join our team
+        </motion.button>
+      </motion.div>
+      <motion.div
+        variants={staggerContainer}
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12"
+      >
         {[
           { name: "Dr. Julian Voss", role: "CEO & Founder", bio: "Former Engineering Director at Stripe. Passionate about accessible systems design.", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400" },
           { name: "Elena Rodriguez", role: "Head of Curriculum", bio: "Former Principal Designer at Airbnb. Focused on the intersection of AI and human-centric design.", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400" },
           { name: "Marcus Thorne", role: "Chief Technology Officer", bio: "Open source contributor and former Netflix infrastructure lead.", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400" },
         ].map((t, i) => (
-          <div key={i} className="group">
+          <motion.div
+            key={i}
+            variants={scaleIn}
+            whileHover={{ scale: 1.005, y: -3 }}
+            className="group"
+          >
             <div className="relative mb-6">
               <div className="absolute inset-0 bg-indigo-600 rounded-[2rem] rotate-3 group-hover:rotate-6 transition-transform opacity-10" />
               <img src={t.img} alt={t.name} className="relative w-full aspect-square object-cover rounded-[2rem] shadow-xl" />
@@ -650,9 +764,9 @@ const AboutPage = () => (
             <p className="text-slate-500 text-sm font-medium leading-relaxed">{t.bio}</p>
           </div>
         ))}
-      </div>
-    </section>
-  </div>
+      </motion.div>
+    </motion.section>
+  </motion.div>
 );
 
 
@@ -660,6 +774,7 @@ const AboutPage = () => (
 // --- Page: Blog ---
 
 const BlogPage = () => {
+  const { ref, controls } = useScrollAnimation();
   const [activeCategory, setActiveCategory] = useState('All');
 
   const categories = ['All', 'Trends', 'Design', 'Dev', 'Career'];
@@ -676,8 +791,13 @@ const BlogPage = () => {
   const filteredPosts = activeCategory === 'All' ? posts : posts.filter(p => p.category === activeCategory);
 
   return (
-    <div className="animate-in fade-in slide-in-from-right-4 duration-700 bg-slate-50 min-h-screen pb-20">
-      {/* Featured Post */}
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={staggerContainer}
+      className="animate-in fade-in slide-in-from-right-4 duration-700 bg-slate-50 min-h-screen pb-20"
+    >  {/* Featured Post */}
       <section className="bg-slate-900 text-white px-8 py-20">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <div className="relative group cursor-pointer">
@@ -707,29 +827,52 @@ const BlogPage = () => {
       </section>
 
       {/* Categories & Search */}
-      <div className="max-w-7xl mx-auto px-8 py-12 flex flex-col md:flex-row justify-between items-center gap-8 border-b border-slate-200">
-        <div className="flex flex-wrap gap-2 justify-center">
+      <motion.div
+        variants={fadeInUp}
+        className="max-w-7xl mx-auto px-8 py-12 flex flex-col md:flex-row justify-between items-center gap-8 border-b border-slate-200"
+      >
+        <motion.div
+          variants={fadeInUp}
+          className="flex flex-wrap gap-2 justify-center"
+        >
           {categories.map(cat => (
-            <button
+            <motion.button
               key={cat}
+              variants={scaleIn}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setActiveCategory(cat)}
               className={`px-6 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${activeCategory === cat ? 'bg-indigo-600 text-white shadow-lg' : 'bg-white text-slate-500 hover:bg-slate-100'}`}
             >
               {cat}
-            </button>
+            </motion.button>
           ))}
-        </div>
-        <div className="relative group w-full md:w-80">
+        </motion.div>
+        <motion.div
+          variants={fadeInUp}
+          className="relative group w-full md:w-80"
+        >
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
           <input type="text" placeholder="Search articles..." className="w-full pl-12 pr-4 py-3 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all font-medium text-sm" />
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Grid */}
-      <div className="max-w-7xl mx-auto px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+      <motion.div
+        variants={fadeInUp}
+        className="max-w-7xl mx-auto px-8 py-16"
+      >
+        <motion.div
+          variants={staggerContainer}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
+        >
           {filteredPosts.map((post, i) => (
-            <div key={i} className="group bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl transition-all border border-slate-100 flex flex-col">
+            <motion.div
+              key={i}
+              variants={scaleIn}
+              whileHover={{ scale: 1.005, y: -3 }}
+              className="group bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl transition-all border border-slate-100 flex flex-col"
+            >
               <div className="relative aspect-video overflow-hidden">
                 <img src={post.img} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                 <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-md px-3 py-1 rounded-xl text-[10px] font-black uppercase tracking-widest text-indigo-600">
@@ -756,12 +899,15 @@ const BlogPage = () => {
                   </button>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Pagination Placeholder */}
-        <div className="mt-20 flex justify-center items-center gap-4">
+        <motion.div
+          variants={fadeInUp}
+          className="mt-20 flex justify-center items-center gap-4"
+        >
           <button className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-indigo-600 transition-colors"><ChevronRight className="w-4 h-4 rotate-180" /></button>
           <div className="flex gap-2">
             <span className="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold text-sm">1</span>
@@ -769,26 +915,48 @@ const BlogPage = () => {
             <span className="w-10 h-10 rounded-xl bg-white text-slate-500 flex items-center justify-center font-bold text-sm border border-slate-100 hover:bg-slate-50 cursor-pointer">3</span>
           </div>
           <button className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-indigo-600 transition-colors"><ChevronRight className="w-4 h-4" /></button>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Newsletter Section */}
-      <section className="max-w-7xl mx-auto px-8 py-10">
-        <div className="bg-indigo-600 rounded-[3rem] p-12 text-center text-white relative overflow-hidden">
+      <motion.section
+        variants={fadeInUp}
+        className="max-w-7xl mx-auto px-8 py-10"
+      >
+        <motion.div
+          variants={scaleIn}
+          whileHover={{ scale: 1.005, y: -3 }}
+          className="bg-indigo-600 rounded-[3rem] p-12 text-center text-white relative overflow-hidden"
+        >
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-          <h2 className="text-3xl font-black mb-4 relative z-10">Get our best insights, every Tuesday.</h2>
-          <p className="text-indigo-100 font-medium mb-8 max-w-xl mx-auto relative z-10 opacity-80">
+          <motion.h2
+            variants={fadeInUp}
+            className="text-3xl font-black mb-4 relative z-10"
+          >
+            Get our best insights, every Tuesday.
+          </motion.h2>
+          <motion.p
+            variants={fadeInUp}
+            className="text-indigo-100 font-medium mb-8 max-w-xl mx-auto relative z-10 opacity-80"
+          >
             Join 45,000+ subscribers and get technical tutorials, industry trends, and career advice delivered directly to your inbox.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto relative z-10">
+          </motion.p>
+          <motion.div
+            variants={fadeInUp}
+            className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto relative z-10"
+          >
             <input type="email" placeholder="you@example.com" className="flex-grow px-6 py-4 rounded-2xl bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:bg-white/20 transition-all font-medium" />
-            <button className="px-8 py-4 bg-white text-indigo-600 font-black uppercase tracking-widest text-xs rounded-2xl shadow-xl hover:scale-105 transition-all">
+            <motion.button
+              variants={scaleIn}
+              whileHover={{ scale: 1.05 }}
+              className="px-8 py-4 bg-white text-indigo-600 font-black uppercase tracking-widest text-xs rounded-2xl shadow-xl hover:scale-105 transition-all"
+            >
               Subscribe
-            </button>
-          </div>
-        </div>
-      </section>
-    </div>
+            </motion.button>
+          </motion.div>
+        </motion.div>
+      </motion.section>
+    </motion.div>
   );
 };
 
@@ -964,6 +1132,7 @@ const CoursesPage = () => {
 // --- Page: Mentors (Expanded) ---
 
 const MentorsPage = () => {
+  const { ref, controls } = useScrollAnimation();
   const mentors = [
     { name: "Sarah Drasner", role: "Sr. Engineer @ Netlify", expertise: "Frontend & Animation", img: "https://i.pravatar.cc/150?u=sarah", students: "1.2k", sessionPrice: "$120/hr" },
     { name: "Gary Simon", role: "Design Expert", expertise: "UI/UX & Branding", img: "https://i.pravatar.cc/150?u=gary", students: "4.5k", sessionPrice: "$150/hr" },
@@ -974,15 +1143,42 @@ const MentorsPage = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-8 py-16">
-      <div className="text-center mb-16">
-        <h1 className="text-4xl font-black text-slate-900 mb-4">Learn from the best</h1>
-        <p className="text-slate-500 max-w-2xl mx-auto italic">"A single hour with a mentor can save you 100 hours of frustrated debugging."</p>
-      </div>
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={staggerContainer}
+      className="max-w-7xl mx-auto px-8 py-16"
+    >
+      <motion.div
+        variants={fadeInUp}
+        className="text-center mb-16"
+      >
+        <motion.h1
+          variants={fadeInUp}
+          className="text-4xl font-black text-slate-900 mb-4"
+        >
+          Learn from the best
+        </motion.h1>
+        <motion.p
+          variants={fadeInUp}
+          className="text-slate-500 max-w-2xl mx-auto italic"
+        >
+          "A single hour with a mentor can save you 100 hours of frustrated debugging."
+        </motion.p>
+      </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+      <motion.div
+        variants={staggerContainer}
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-20"
+      >
         {mentors.map((mentor, i) => (
-          <div key={i} className="bg-white p-8 rounded-[2.5rem] border border-slate-100 hover:border-indigo-200 hover:shadow-xl transition-all group">
+          <motion.div
+            key={i}
+            variants={scaleIn}
+            whileHover={{ y: -3, scale: 1.005 }}
+            className="bg-white p-8 rounded-[2.5rem] border border-slate-100 hover:border-indigo-200 hover:shadow-xl transition-all group"
+          >
             <div className="flex items-start justify-between mb-6">
               <div className="relative">
                 <img src={mentor.img} alt={mentor.name} className="w-24 h-24 rounded-3xl object-cover border-4 border-white shadow-lg group-hover:scale-110 transition-transform" />
@@ -1015,11 +1211,17 @@ const MentorsPage = () => {
             </button>
           </div>
         ))}
-      </div>
+      </motion.div>
 
       {/* NEW: Become a Mentor Section */}
-      <div className="grid md:grid-cols-2 gap-8 items-stretch">
-        <div className="bg-indigo-50 p-12 rounded-[3rem] flex flex-col justify-center">
+      <motion.div
+        variants={staggerContainer}
+        className="grid md:grid-cols-2 gap-8 items-stretch"
+      >
+        <motion.div
+          variants={fadeInLeft}
+          className="bg-indigo-50 p-12 rounded-[3rem] flex flex-col justify-center"
+        >
           <h2 className="text-3xl font-black text-indigo-900 mb-6 leading-tight">Are you an industry expert?</h2>
           <p className="text-indigo-700/70 mb-8 leading-relaxed">Share your knowledge, build your personal brand, and earn extra income by mentoring the next generation of tech talent.</p>
           <button className="self-start px-8 py-4 bg-indigo-600 text-white font-bold rounded-2xl hover:scale-105 transition-all shadow-xl shadow-indigo-200">Apply to Teach</button>
@@ -1037,15 +1239,16 @@ const MentorsPage = () => {
               <div className="text-xs text-slate-400 font-bold uppercase tracking-wider">{stat.label}</div>
             </div>
           ))}
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 
 // --- Page: Pricing (Expanded) ---
 
 const PricingPage = () => {
+  const { ref, controls } = useScrollAnimation();
   const faqs = [
     { q: "Can I cancel my subscription anytime?", a: "Yes, you can cancel your subscription at any time from your account settings. You will retain access until the end of your billing cycle." },
     { q: "Do you offer student discounts?", a: "Absolutely! Verify your student ID to get 50% off our Pro Annual plan." },
@@ -1053,15 +1256,41 @@ const PricingPage = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-8 py-16">
-      <div className="text-center mb-16">
-        <h1 className="text-4xl font-black text-slate-900 mb-4">Flexible Plans</h1>
-        <p className="text-slate-500">Invest in your career. Choose the plan that fits your ambition.</p>
-      </div>
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={staggerContainer}
+      className="max-w-7xl mx-auto px-8 py-16"
+    >
+      <motion.div
+        variants={fadeInUp}
+        className="text-center mb-16"
+      >
+        <motion.h1
+          variants={fadeInUp}
+          className="text-4xl font-black text-slate-900 mb-4"
+        >
+          Flexible Plans
+        </motion.h1>
+        <motion.p
+          variants={fadeInUp}
+          className="text-slate-500"
+        >
+          Invest in your career. Choose the plan that fits your ambition.
+        </motion.p>
+      </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center mb-32">
+      <motion.div
+        variants={fadeInUp}
+        className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center mb-32"
+      >
         {/* Starter */}
-        <div className="p-8 bg-white border border-slate-200 rounded-[2.5rem] text-center">
+        <motion.div
+          variants={scaleIn}
+          whileHover={{ scale: 1.005, y: -3 }}
+          className="p-8 bg-white border border-slate-200 rounded-[2.5rem] text-center"
+        >
           <h3 className="text-lg font-bold text-slate-900 mb-4">Starter</h3>
           <div className="text-5xl font-black text-slate-900 mb-2">$0<span className="text-sm font-medium text-slate-400">/mo</span></div>
           <p className="text-slate-500 text-sm mb-8">Perfect for exploring our basics.</p>
@@ -1071,10 +1300,14 @@ const PricingPage = () => {
             <li className="flex items-center gap-3 text-sm text-slate-400"><CheckCircle className="w-5 h-5" /> No Certificates</li>
           </ul>
           <button className="w-full py-4 border border-slate-200 rounded-2xl font-bold hover:bg-slate-50 transition-all">Get Started</button>
-        </div>
+        </motion.div>
 
         {/* Pro */}
-        <div className="p-10 bg-slate-900 text-white rounded-[3rem] text-center shadow-2xl relative overflow-hidden transform md:scale-110 z-10">
+        <motion.div
+          variants={scaleIn}
+          whileHover={{ scale: 1.005, y: -3 }}
+          className="p-10 bg-slate-900 text-white rounded-[3rem] text-center shadow-2xl relative overflow-hidden transform md:scale-110 z-10"
+        >
           <div className="absolute top-4 right-4 bg-indigo-500 text-white text-[10px] font-black uppercase px-3 py-1 rounded-full tracking-widest">Most Popular</div>
           <h3 className="text-lg font-bold mb-4">Pro Unlimited</h3>
           <div className="text-5xl font-black mb-2">$29<span className="text-sm font-medium text-slate-400">/mo</span></div>
@@ -1086,10 +1319,14 @@ const PricingPage = () => {
             <li className="flex items-center gap-3 text-sm"><CheckCircle className="text-indigo-400 w-5 h-5" /> 1 Mentor Call / Month</li>
           </ul>
           <button className="w-full py-4 bg-indigo-600 rounded-2xl font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-900/50">Go Pro Now</button>
-        </div>
+        </motion.div>
 
         {/* Enterprise */}
-        <div className="p-8 bg-white border border-slate-200 rounded-[2.5rem] text-center">
+        <motion.div
+          variants={scaleIn}
+          whileHover={{ scale: 1.005, y: -3 }}
+          className="p-8 bg-white border border-slate-200 rounded-[2.5rem] text-center"
+        >
           <h3 className="text-lg font-bold text-slate-900 mb-4">For Teams</h3>
           <div className="text-5xl font-black text-slate-900 mb-2">Custom</div>
           <p className="text-slate-500 text-sm mb-8">For schools and corporations.</p>
@@ -1099,13 +1336,24 @@ const PricingPage = () => {
             <li className="flex items-center gap-3 text-sm text-slate-600"><CheckCircle className="text-indigo-600 w-5 h-5" /> Dedicated Support</li>
           </ul>
           <button className="w-full py-4 border border-slate-200 rounded-2xl font-bold hover:bg-slate-50 transition-all">Contact Sales</button>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* NEW: Comparison Table */}
-      <div className="hidden lg:block mb-32">
-        <h2 className="text-3xl font-black text-center mb-12">Compare Features</h2>
-        <div className="bg-white border border-slate-100 rounded-[2.5rem] overflow-hidden">
+      <motion.div
+        variants={fadeInUp}
+        className="hidden lg:block mb-32"
+      >
+        <motion.h2
+          variants={fadeInUp}
+          className="text-3xl font-black text-center mb-12"
+        >
+          Compare Features
+        </motion.h2>
+        <motion.div
+          variants={scaleIn}
+          className="bg-white border border-slate-100 rounded-[2.5rem] overflow-hidden"
+        >
           <table className="w-full text-left">
             <thead className="bg-slate-50">
               <tr>
@@ -1132,30 +1380,46 @@ const PricingPage = () => {
               ))}
             </tbody>
           </table>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* NEW: FAQ Section */}
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-black text-center mb-12">Frequently Asked Questions</h2>
-        <div className="space-y-4">
+      <motion.div
+        variants={fadeInUp}
+        className="max-w-3xl mx-auto"
+      >
+        <motion.h2
+          variants={fadeInUp}
+          className="text-3xl font-black text-center mb-12"
+        >
+          Frequently Asked Questions
+        </motion.h2>
+        <motion.div
+          variants={staggerContainer}
+          className="space-y-4"
+        >
           {faqs.map((faq, i) => (
-            <div key={i} className="p-8 bg-slate-50 rounded-3xl">
+            <motion.div
+              key={i}
+              variants={scaleIn}
+              className="p-8 bg-slate-50 rounded-3xl"
+            >
               <h4 className="font-bold text-slate-900 mb-2 flex items-center gap-3 italic">
                 <HelpCircle className="w-5 h-5 text-indigo-600" /> {faq.q}
               </h4>
               <p className="text-sm text-slate-500 leading-relaxed pl-8">{faq.a}</p>
-            </div>
+            </motion.div>
           ))}
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 
 // --- Page: Resources (Expanded) ---
 
 const ResourcesPage = () => {
+  const { ref, controls } = useScrollAnimation();
   const resourceCards = [
     { title: "2026 Developer Survey", type: "Report", icon: FileText, color: "text-blue-500", size: "12MB" },
     { title: "UI Kit for Figma", type: "Asset", icon: Download, color: "text-purple-500", size: "45MB" },
@@ -1164,27 +1428,63 @@ const ResourcesPage = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-8 py-16">
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8">
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={staggerContainer}
+      className="max-w-7xl mx-auto px-8 py-16"
+    >
+      <motion.div
+        variants={fadeInUp}
+        className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8"
+      >
         <div>
-          <h1 className="text-4xl font-black text-slate-900 mb-2">Resources & Community</h1>
-          <p className="text-slate-500">Free assets and insights to fuel your learning journey.</p>
+          <motion.h1
+            variants={fadeInUp}
+            className="text-4xl font-black text-slate-900 mb-2"
+          >
+            Resources & Community
+          </motion.h1>
+          <motion.p
+            variants={fadeInUp}
+            className="text-slate-500"
+          >
+            Free assets and insights to fuel your learning journey.
+          </motion.p>
         </div>
-        <div className="flex bg-slate-100 p-1.5 rounded-2xl">
+        <motion.div
+          variants={fadeInUp}
+          className="flex bg-slate-100 p-1.5 rounded-2xl"
+        >
           <button className="px-6 py-2 bg-white text-slate-900 font-bold rounded-xl shadow-sm text-sm">Library</button>
           <button className="px-6 py-2 text-slate-500 font-bold rounded-xl text-sm hover:text-indigo-600">Events</button>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-20">
-        <div className="lg:col-span-2">
+      <motion.div
+        variants={fadeInUp}
+        className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-20"
+      >
+        <motion.div
+          variants={fadeInUp}
+          className="lg:col-span-2"
+        >
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-xl font-black italic">Latest Articles</h2>
             <button className="text-sm font-bold text-indigo-600 hover:underline">View All Posts</button>
           </div>
-          <div className="space-y-6">
+          <motion.div
+            variants={staggerContainer}
+            className="space-y-6"
+          >
             {[1, 2, 3, 4].map(i => (
-              <div key={i} className="flex flex-col sm:flex-row gap-6 p-6 bg-white border border-slate-100 rounded-[2rem] hover:shadow-xl transition-all group cursor-pointer">
+              <motion.div
+                key={i}
+                variants={scaleIn}
+                whileHover={{ scale: 1.005, y: -3 }}
+                className="flex flex-col sm:flex-row gap-6 p-6 bg-white border border-slate-100 rounded-[2rem] hover:shadow-xl transition-all group cursor-pointer"
+              >
                 <div className="w-full sm:w-48 h-32 bg-slate-200 rounded-2xl shrink-0 overflow-hidden relative">
                   <img src={`https://picsum.photos/seed/${i + 20}/400/300`} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
                   <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg text-[8px] font-black uppercase">5 min read</div>
@@ -1197,16 +1497,31 @@ const ResourcesPage = () => {
                   <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-indigo-600 transition-colors">The shift towards AI-Native development in 2026</h3>
                   <p className="text-slate-500 text-sm line-clamp-2 leading-relaxed">How generative AI is changing the way we think about writing production code, from boilerplate to logic...</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        <div>
-          <h2 className="text-xl font-black italic mb-8">Free Assets</h2>
-          <div className="grid grid-cols-1 gap-4 mb-8">
+        <motion.div
+          variants={fadeInUp}
+        >
+          <motion.h2
+            variants={fadeInUp}
+            className="text-xl font-black italic mb-8"
+          >
+            Free Assets
+          </motion.h2>
+          <motion.div
+            variants={staggerContainer}
+            className="grid grid-cols-1 gap-4 mb-8"
+          >
             {resourceCards.map((res, i) => (
-              <div key={i} className="flex items-center justify-between p-6 bg-white border border-slate-100 rounded-3xl hover:border-indigo-200 hover:bg-slate-50 transition-all group">
+              <motion.div
+                key={i}
+                variants={scaleIn}
+                whileHover={{ scale: 1.005, y: -3 }}
+                className="flex items-center justify-between p-6 bg-white border border-slate-100 rounded-3xl hover:border-indigo-200 hover:bg-slate-50 transition-all group"
+              >
                 <div className="flex items-center gap-4">
                   <div className={`p-3 rounded-2xl bg-white shadow-sm border border-slate-100 ${res.color}`}><res.icon className="w-5 h-5" /></div>
                   <div>
@@ -1217,40 +1532,68 @@ const ResourcesPage = () => {
                 <button className="p-2 bg-indigo-50 text-indigo-600 rounded-xl group-hover:bg-indigo-600 group-hover:text-white transition-all">
                   <Download className="w-4 h-4" />
                 </button>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
-          <div className="p-8 bg-indigo-600 rounded-[2.5rem] text-white relative overflow-hidden">
+          <motion.div
+            variants={scaleIn}
+            whileHover={{ scale: 1.005, y: -3 }}
+            className="p-8 bg-indigo-600 rounded-[2.5rem] text-white relative overflow-hidden"
+          >
             <div className="absolute top-0 left-0 w-20 h-20 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2" />
             <div className="relative z-10">
               <h3 className="font-bold mb-2">Join our Discord</h3>
               <p className="text-sm text-indigo-100 mb-6">Discuss topics, get help, and find collaborators.</p>
               <button className="w-full py-4 bg-white text-indigo-600 font-black rounded-2xl hover:bg-slate-50 hover:-translate-y-1 transition-all shadow-xl">Join 12k Members</button>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
 
       {/* NEW: Community Showcase */}
-      <div className="border-t border-slate-100 pt-20">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-black italic mb-4">Student Showcase</h2>
-          <p className="text-slate-500">Real projects built by students during our courses.</p>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+      <motion.div
+        variants={fadeInUp}
+        className="border-t border-slate-100 pt-20"
+      >
+        <motion.div
+          variants={fadeInUp}
+          className="text-center mb-12"
+        >
+          <motion.h2
+            variants={fadeInUp}
+            className="text-3xl font-black italic mb-4"
+          >
+            Student Showcase
+          </motion.h2>
+          <motion.p
+            variants={fadeInUp}
+            className="text-slate-500"
+          >
+            Real projects built by students during our courses.
+          </motion.p>
+        </motion.div>
+        <motion.div
+          variants={staggerContainer}
+          className="grid grid-cols-2 md:grid-cols-4 gap-6"
+        >
           {[1, 2, 3, 4].map(i => (
-            <div key={i} className="aspect-square bg-slate-100 rounded-3xl overflow-hidden relative group">
+            <motion.div
+              key={i}
+              variants={scaleIn}
+              whileHover={{ scale: 1.005, y: -3 }}
+              className="aspect-square bg-slate-100 rounded-3xl overflow-hidden relative group"
+            >
               <img src={`https://picsum.photos/seed/${i + 40}/600/600`} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
                 <p className="text-white font-bold text-sm">Portfolio Redesign</p>
                 <p className="text-indigo-300 text-[10px] font-black uppercase tracking-widest">by Alex J.</p>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 
