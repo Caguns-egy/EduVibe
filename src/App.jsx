@@ -25,7 +25,14 @@ import {
   Heart,
   Sparkles,
   Trophy,
-  Calendar
+  Calendar,
+  Fingerprint,
+  Mail,
+  Lock,
+  Eye,
+  EyeOff,
+  Github,
+  Twitter
 } from 'lucide-react';
 
 // --- Components ---
@@ -34,7 +41,7 @@ const FloatingOrb = ({ className }) => (
   <div className={`absolute rounded-full blur-3xl ${className}`} />
 );
 
-const Navbar = ({ currentPath, setPath }) => {
+const Navbar = ({ currentPath, setPath, setView }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -58,7 +65,7 @@ const Navbar = ({ currentPath, setPath }) => {
       </div>
 
       <div className="flex items-center gap-4">
-        <button onClick={() => { setPath('auth'); setView('login'); }} className="hidden sm:block px-5 py-2 text-sm font-semibold text-indigo-600 hover:bg-indigo-50 rounded-full transition-all">
+        <button onClick={() => { console.log('Log in clicked'); setPath('auth'); setView('login'); }} className="px-5 py-2 text-sm font-semibold text-indigo-600 hover:bg-indigo-50 rounded-full transition-all">
           Log in
         </button>
         <button onClick={() => { setPath('auth'); setView('signup'); }} className="px-6 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-full shadow-lg shadow-indigo-200 transition-all">
@@ -987,6 +994,7 @@ export default function App() {
   }, [path]);
 
   const renderContent = () => {
+    console.log('Rendering path:', path);
     switch (path) {
       case 'courses': return <CoursesPage />;
       case 'mentors': return <MentorsPage />;
@@ -1001,7 +1009,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white font-sans selection:bg-indigo-100 selection:text-indigo-700">
-      <Navbar currentPath={path} setPath={setPath} />
+      <Navbar currentPath={path} setPath={setPath} setView={setView} />
       <main className="animate-in fade-in slide-in-from-bottom-2 duration-500">
         {renderContent()}
       </main>
@@ -1026,6 +1034,7 @@ return (
 =======
 
 const AuthPage = ({ view, setView, setPath }) => {
+  console.log('AuthPage rendered with view:', view);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -1048,7 +1057,9 @@ const AuthPage = ({ view, setView, setPath }) => {
     <div 
       onMouseMove={handleMouseMove}
       className="min-h-screen bg-slate-950 flex flex-col lg:flex-row overflow-hidden font-sans selection:bg-indigo-500 selection:text-white"
+      style={{background: 'black', color: 'white'}}
     >
+      <h1 style={{color: 'black'}}>Auth Page Loaded</h1>
       {/* Interactive Background Glow (Follows Mouse) */}
       <div 
         className="hidden lg:block pointer-events-none fixed inset-0 z-0 transition-opacity duration-500 opacity-30"
