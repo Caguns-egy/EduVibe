@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion, useAnimation, useInView } from 'framer-motion';
 import {
   BookOpen,
   Layout,
@@ -36,6 +37,60 @@ import {
   Github,
   Twitter
 } from 'lucide-react';
+
+// --- Custom Hooks ---
+
+const useScrollAnimation = (threshold = 0.1) => {
+  const controls = useAnimation();
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { threshold, once: true });
+
+  useEffect(() => {
+    if (inView) {
+      controls.start('visible');
+    }
+  }, [controls, inView]);
+
+  return { ref, controls };
+};
+
+// --- Animation Variants ---
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } }
+};
+
+const fadeInLeft = {
+  hidden: { opacity: 0, x: -50 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: 'easeOut' } }
+};
+
+const fadeInRight = {
+  hidden: { opacity: 0, x: 50 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: 'easeOut' } }
+};
+
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: 'easeOut' } }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.1
+    }
+  }
+};
+
+const staggerItem = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } }
+};
 
 // --- Components ---
 
@@ -101,75 +156,124 @@ const Navbar = ({ currentPath, setPath, setView }) => {
   );
 };
 
-const Hero = () => (
-  <section className="px-8 py-16 md:py-24 bg-gradient-to-b from-white to-slate-50 relative overflow-hidden">
-    {/* Decorative Elements */}
-    <div className="absolute top-20 right-10 w-64 h-64 bg-indigo-400/10 rounded-full blur-3xl" />
-    <div className="absolute bottom-10 left-10 w-80 h-80 bg-violet-400/10 rounded-full blur-3xl" />
+const Hero = () => {
+  const { ref, controls } = useScrollAnimation();
 
-    <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center relative z-10">
-      <div>
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-xs font-bold uppercase tracking-wider mb-6">
-          <Zap className="w-3 h-3" /> Future of Learning
-        </div>
-        <h1 className="text-5xl md:text-7xl font-bold text-slate-900 leading-[1.1] mb-6">
-          Master any skill <br />
-          <span className="text-indigo-600 italic">without</span> the grind.
-        </h1>
-        <p className="text-lg text-slate-600 mb-8 max-w-lg leading-relaxed">
-          Interactive courses designed by world-class industry experts. Join 50k+ students building the future of technology and design.
-        </p>
-        <div className="flex flex-wrap gap-4">
-          <button className="px-8 py-4 bg-indigo-600 text-white font-bold rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-xl shadow-indigo-200">
-            Explore Courses
-          </button>
-          <button className="px-8 py-4 bg-white border border-slate-200 text-slate-700 font-bold rounded-2xl hover:bg-slate-50 transition-all flex items-center gap-2">
-            <PlayCircle className="w-5 h-5 text-indigo-600" />
-            Watch Demo
-          </button>
-        </div>
+  return (
+    <motion.section
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={staggerContainer}
+      className="px-8 py-16 md:py-24 bg-gradient-to-b from-white to-slate-50 relative overflow-hidden"
+    >
+      {/* Decorative Elements */}
+      <div className="absolute top-20 right-10 w-64 h-64 bg-indigo-400/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-10 left-10 w-80 h-80 bg-violet-400/10 rounded-full blur-3xl" />
 
-        <div className="mt-12 flex items-center gap-6">
-          <div className="flex -space-x-3">
-            {[1, 2, 3, 4].map(i => (
-              <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-slate-200" />
-            ))}
-          </div>
-          <div className="text-sm">
-            <div className="flex items-center gap-1 text-amber-500 font-bold">
-              <Star className="w-4 h-4 fill-current" /> 4.9/5
+      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center relative z-10">
+        <motion.div variants={fadeInLeft}>
+          <motion.div
+            variants={scaleIn}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-xs font-bold uppercase tracking-wider mb-6"
+          >
+            <Zap className="w-3 h-3" /> Future of Learning
+          </motion.div>
+          <motion.h1
+            variants={fadeInUp}
+            className="text-5xl md:text-7xl font-bold text-slate-900 leading-[1.1] mb-6"
+          >
+            Master any skill <br />
+            <span className="text-indigo-600 italic">without</span> the grind.
+          </motion.h1>
+          <motion.p
+            variants={fadeInUp}
+            className="text-lg text-slate-600 mb-8 max-w-lg leading-relaxed"
+          >
+            Interactive courses designed by world-class industry experts. Join 50k+ students building the future of technology and design.
+          </motion.p>
+          <motion.div
+            variants={staggerContainer}
+            className="flex flex-wrap gap-4"
+          >
+            <motion.button
+              variants={scaleIn}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 bg-indigo-600 text-white font-bold rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-xl shadow-indigo-200"
+            >
+              Explore Courses
+            </motion.button>
+            <motion.button
+              variants={scaleIn}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 bg-white border border-slate-200 text-slate-700 font-bold rounded-2xl hover:bg-slate-50 transition-all flex items-center gap-2"
+            >
+              <PlayCircle className="w-5 h-5 text-indigo-600" />
+              Watch Demo
+            </motion.button>
+          </motion.div>
+
+          <motion.div
+            variants={fadeInUp}
+            className="mt-12 flex items-center gap-6"
+          >
+            <div className="flex -space-x-3">
+              {[1, 2, 3, 4].map(i => (
+                <motion.div
+                  key={i}
+                  variants={scaleIn}
+                  className="w-10 h-10 rounded-full border-2 border-white bg-slate-200"
+                />
+              ))}
             </div>
-            <p className="text-slate-500">Trusted by students worldwide</p>
-          </div>
-        </div>
+            <div className="text-sm">
+              <div className="flex items-center gap-1 text-amber-500 font-bold">
+                <Star className="w-4 h-4 fill-current" /> 4.9/5
+              </div>
+              <p className="text-slate-500">Trusted by students worldwide</p>
+            </div>
+          </motion.div>
+        </motion.div>
+
+        <motion.div
+          variants={fadeInRight}
+          className="relative"
+        >
+          <motion.div
+            variants={scaleIn}
+            className="relative rounded-[2.5rem] overflow-hidden border-8 border-white shadow-2xl"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800"
+              alt="Students collaborating"
+              className="w-full h-auto"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/40 to-transparent" />
+          </motion.div>
+
+          {/* Floating Stat Card */}
+          <motion.div
+            variants={scaleIn}
+            whileHover={{ scale: 1.05, y: -5 }}
+            className="absolute -bottom-6 -left-6 bg-white p-6 rounded-3xl shadow-xl border border-slate-100 animate-bounce-slow"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-100 flex items-center justify-center">
+                <TrendingUp className="text-emerald-600 w-6 h-6" />
+              </div>
+              <div>
+                <p className="text-xs text-slate-500 font-bold uppercase tracking-tighter">Your Progress</p>
+                <p className="text-xl font-bold text-slate-900">+84% This Month</p>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
       </div>
-
-      <div className="relative">
-        <div className="relative rounded-[2.5rem] overflow-hidden border-8 border-white shadow-2xl">
-          <img
-            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800"
-            alt="Students collaborating"
-            className="w-full h-auto"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/40 to-transparent" />
-        </div>
-
-        {/* Floating Stat Card */}
-        <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-3xl shadow-xl border border-slate-100 animate-bounce-slow">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-100 flex items-center justify-center">
-              <TrendingUp className="text-emerald-600 w-6 h-6" />
-            </div>
-            <div>
-              <p className="text-xs text-slate-500 font-bold uppercase tracking-tighter">Your Progress</p>
-              <p className="text-xl font-bold text-slate-900">+84% This Month</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-);
+    </motion.section>
+  );
+};
 
 const CourseCard = ({ title, instructor, price, rating, category, image }) => (
   <div className="group bg-white rounded-3xl overflow-hidden border border-slate-100 hover:border-indigo-100 hover:shadow-2xl hover:shadow-indigo-100 transition-all duration-300">
@@ -197,6 +301,7 @@ const CourseCard = ({ title, instructor, price, rating, category, image }) => (
 );
 
 const CourseGrid = () => {
+  const { ref, controls } = useScrollAnimation();
   const courses = [
     { title: "UI/UX Mastery: 2026 Edition", instructor: "Alex Rivera", price: "49", rating: "4.9", category: "Design", image: "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&q=80&w=400" },
     { title: "Full Stack Next.js & GraphQL", instructor: "Sarah Chen", price: "89", rating: "4.8", category: "Development", image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&q=80&w=400" },
@@ -205,91 +310,220 @@ const CourseGrid = () => {
   ];
 
   return (
-    <section className="px-8 py-20 max-w-7xl mx-auto">
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+    <motion.section
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={staggerContainer}
+      className="px-8 py-20 max-w-7xl mx-auto"
+    >
+      <motion.div
+        variants={fadeInUp}
+        className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6"
+      >
         <div>
           <h2 className="text-3xl font-bold text-slate-900 mb-2">Featured Courses</h2>
           <p className="text-slate-500">Pick up where you left off or start something new.</p>
         </div>
-        <div className="flex gap-2">
+        <motion.div
+          variants={staggerContainer}
+          className="flex gap-2"
+        >
           {["All", "Design", "Dev", "Business"].map((cat) => (
-            <button key={cat} className="px-4 py-2 text-sm font-medium rounded-xl border border-slate-200 hover:bg-slate-900 hover:text-white transition-all">
+            <motion.button
+              key={cat}
+              variants={scaleIn}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-4 py-2 text-sm font-medium rounded-xl border border-slate-200 hover:bg-slate-900 hover:text-white transition-all"
+            >
               {cat}
-            </button>
+            </motion.button>
           ))}
-        </div>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {courses.map((course, idx) => <CourseCard key={idx} {...course} />)}
-      </div>
-    </section>
+        </motion.div>
+      </motion.div>
+      <motion.div
+        variants={staggerContainer}
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+      >
+        {courses.map((course, idx) => (
+          <motion.div
+            key={idx}
+            variants={scaleIn}
+            whileHover={{ y: -10, scale: 1.02 }}
+          >
+            <CourseCard {...course} />
+          </motion.div>
+        ))}
+      </motion.div>
+    </motion.section>
   );
 };
 
-const Features = () => (
-  <section className="px-8 py-20 bg-slate-900 text-white rounded-[3rem] mx-4 md:mx-8">
-    <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-12 text-center">
-      <div className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
-        <div className="w-16 h-16 bg-indigo-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
-          <Layout className="text-indigo-400 w-8 h-8" />
-        </div>
-        <h3 className="text-xl font-bold mb-4">Adaptive Learning</h3>
-        <p className="text-slate-400 text-sm leading-relaxed">Our AI analyzes your performance to create a custom curriculum that fits your speed.</p>
-      </div>
-      <div className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
-        <div className="w-16 h-16 bg-violet-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
-          <Users className="text-violet-400 w-8 h-8" />
-        </div>
-        <h3 className="text-xl font-bold mb-4">Peer Collaboration</h3>
-        <p className="text-slate-400 text-sm leading-relaxed">Connect with study groups and work on real projects with students from 120+ countries.</p>
-      </div>
-      <div className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
-        <div className="w-16 h-16 bg-emerald-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
-          <Award className="text-emerald-400 w-8 h-8" />
-        </div>
-        <h3 className="text-xl font-bold mb-4">Verified Certificates</h3>
-        <p className="text-slate-400 text-sm leading-relaxed">Earn industry-recognized certificates that directly link to your LinkedIn and resume.</p>
-      </div>
-    </div>
-  </section>
-);
+const Features = () => {
+  const { ref, controls } = useScrollAnimation();
 
-const HomePage = () => (
-  <>
-    <Hero />
+  return (
+    <motion.section
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={staggerContainer}
+      className="px-8 py-20 bg-slate-900 text-white rounded-[3rem] mx-4 md:mx-8"
+    >
+      <motion.div
+        variants={staggerContainer}
+        className="max-w-6xl mx-auto grid md:grid-cols-3 gap-12 text-center"
+      >
+        <motion.div
+          variants={scaleIn}
+          whileHover={{ scale: 1.05, y: -5 }}
+          className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
+        >
+          <motion.div
+            variants={scaleIn}
+            className="w-16 h-16 bg-indigo-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6"
+          >
+            <Layout className="text-indigo-400 w-8 h-8" />
+          </motion.div>
+          <motion.h3
+            variants={fadeInUp}
+            className="text-xl font-bold mb-4"
+          >
+            Adaptive Learning
+          </motion.h3>
+          <motion.p
+            variants={fadeInUp}
+            className="text-slate-400 text-sm leading-relaxed"
+          >
+            Our AI analyzes your performance to create a custom curriculum that fits your speed.
+          </motion.p>
+        </motion.div>
 
-    {/* Trusted By Section */}
-    <div className="px-8 py-10 flex flex-wrap justify-center items-center gap-8 md:gap-16 grayscale opacity-40">
-      <div className="text-2xl font-black">Google</div>
-      <div className="text-2xl font-black">Microsoft</div>
-      <div className="text-2xl font-black">Stripe</div>
-      <div className="text-2xl font-black">Airbnb</div>
-    </div>
+        <motion.div
+          variants={scaleIn}
+          whileHover={{ scale: 1.05, y: -5 }}
+          className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
+        >
+          <motion.div
+            variants={scaleIn}
+            className="w-16 h-16 bg-violet-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6"
+          >
+            <Users className="text-violet-400 w-8 h-8" />
+          </motion.div>
+          <motion.h3
+            variants={fadeInUp}
+            className="text-xl font-bold mb-4"
+          >
+            Peer Collaboration
+          </motion.h3>
+          <motion.p
+            variants={fadeInUp}
+            className="text-slate-400 text-sm leading-relaxed"
+          >
+            Connect with study groups and work on real projects with students from 120+ countries.
+          </motion.p>
+        </motion.div>
 
-    <CourseGrid />
+        <motion.div
+          variants={scaleIn}
+          whileHover={{ scale: 1.05, y: -5 }}
+          className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
+        >
+          <motion.div
+            variants={scaleIn}
+            className="w-16 h-16 bg-emerald-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6"
+          >
+            <Award className="text-emerald-400 w-8 h-8" />
+          </motion.div>
+          <motion.h3
+            variants={fadeInUp}
+            className="text-xl font-bold mb-4"
+          >
+            Verified Certificates
+          </motion.h3>
+          <motion.p
+            variants={fadeInUp}
+            className="text-slate-400 text-sm leading-relaxed"
+          >
+            Earn industry-recognized certificates that directly link to your LinkedIn and resume.
+          </motion.p>
+        </motion.div>
+      </motion.div>
+    </motion.section>
+  );
+};
 
-    <Features />
+const HomePage = () => {
+  const { ref, controls } = useScrollAnimation();
 
-    {/* CTA Section */}
-    <section className="px-8 py-32 text-center max-w-4xl mx-auto">
-      <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6">
-        Ready to change your <br />
-        career trajectory?
-      </h2>
-      <p className="text-slate-500 mb-10 text-lg">
-        No credit card required to start. Experience our first 3 modules for free.
-      </p>
-      <div className="flex flex-col sm:flex-row justify-center gap-4">
-        <button className="px-10 py-4 bg-indigo-600 text-white font-bold rounded-2xl shadow-xl shadow-indigo-100 hover:-translate-y-1 transition-all">
-          Join EduVibe Now
-        </button>
-        <button className="px-10 py-4 bg-slate-100 text-slate-900 font-bold rounded-2xl hover:bg-slate-200 transition-all">
-          View Curriculum
-        </button>
-      </div>
-    </section>
-  </>
-);
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={staggerContainer}
+    >
+      <Hero />
+
+      {/* Trusted By Section */}
+      <motion.div
+        variants={fadeInUp}
+        className="px-8 py-10 flex flex-wrap justify-center items-center gap-8 md:gap-16 grayscale opacity-40"
+      >
+        <motion.div variants={scaleIn} className="text-2xl font-black">Google</motion.div>
+        <motion.div variants={scaleIn} className="text-2xl font-black">Microsoft</motion.div>
+        <motion.div variants={scaleIn} className="text-2xl font-black">Stripe</motion.div>
+        <motion.div variants={scaleIn} className="text-2xl font-black">Airbnb</motion.div>
+      </motion.div>
+
+      <CourseGrid />
+
+      <Features />
+
+      {/* CTA Section */}
+      <motion.section
+        variants={fadeInUp}
+        className="px-8 py-32 text-center max-w-4xl mx-auto"
+      >
+        <motion.h2
+          variants={fadeInUp}
+          className="text-4xl md:text-5xl font-black text-slate-900 mb-6"
+        >
+          Ready to change your <br />
+          career trajectory?
+        </motion.h2>
+        <motion.p
+          variants={fadeInUp}
+          className="text-slate-500 mb-10 text-lg"
+        >
+          No credit card required to start. Experience our first 3 modules for free.
+        </motion.p>
+        <motion.div
+          variants={staggerContainer}
+          className="flex flex-col sm:flex-row justify-center gap-4"
+        >
+          <motion.button
+            variants={scaleIn}
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-10 py-4 bg-indigo-600 text-white font-bold rounded-2xl shadow-xl shadow-indigo-100 hover:-translate-y-1 transition-all"
+          >
+            Join EduVibe Now
+          </motion.button>
+          <motion.button
+            variants={scaleIn}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-10 py-4 bg-slate-100 text-slate-900 font-bold rounded-2xl hover:bg-slate-200 transition-all"
+          >
+            View Curriculum
+          </motion.button>
+        </motion.div>
+      </motion.section>
+    </motion.div>
+  );
+};
 
 const Footer = () => (
   <footer className="px-8 py-12 bg-white border-t border-slate-100">
@@ -563,6 +797,7 @@ const BlogPage = () => {
 const CoursesPage = () => {
   const [filter, setFilter] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
+  const { ref, controls } = useScrollAnimation();
   const courses = [
     { id: 1, title: "UI/UX Mastery: 2026 Edition", instructor: "Alex Rivera", price: 49, rating: 4.9, category: "Design", lessons: 24, image: "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&q=80&w=400", level: "Intermediate" },
     { id: 2, title: "Full Stack Next.js & GraphQL", instructor: "Sarah Chen", price: 89, rating: 4.8, category: "Development", lessons: 42, image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&q=80&w=400", level: "Advanced" },
@@ -577,17 +812,32 @@ const CoursesPage = () => {
     .filter(c => c.title.toLowerCase().includes(searchTerm.toLowerCase()) || c.instructor.toLowerCase().includes(searchTerm.toLowerCase()));
 
   return (
-    <div className="max-w-7xl mx-auto px-8 py-16">
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={staggerContainer}
+      className="max-w-7xl mx-auto px-8 py-16"
+    >
       {/* Search & Filter Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-12">
+      <motion.div
+        variants={fadeInUp}
+        className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-12"
+      >
         <div>
           <h1 className="text-4xl font-black text-slate-900 mb-2">Explore Library</h1>
           <p className="text-slate-500">Master the most in-demand skills of 2026.</p>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <motion.div
+          variants={staggerContainer}
+          className="flex flex-wrap gap-2"
+        >
           {['All', 'Design', 'Development', 'Data Science', 'Business'].map(cat => (
-            <button
+            <motion.button
               key={cat}
+              variants={scaleIn}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setFilter(cat)}
               className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${filter === cat
                 ? 'bg-indigo-600 text-white'
@@ -595,13 +845,16 @@ const CoursesPage = () => {
                 }`}
             >
               {cat}
-            </button>
+            </motion.button>
           ))}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Search Bar */}
-      <div className="mb-8">
+      <motion.div
+        variants={fadeInUp}
+        className="mb-8"
+      >
         <div className="relative">
           <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
           <input
@@ -612,11 +865,20 @@ const CoursesPage = () => {
             className="w-full pl-12 pr-4 py-4 border border-slate-200 rounded-2xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
           />
         </div>
-      </div>
+      </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+      {/* Course Grid */}
+      <motion.div
+        variants={staggerContainer}
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20"
+      >
         {filtered.map(course => (
-          <div key={course.id} className="group bg-white rounded-3xl border border-slate-100 overflow-hidden hover:shadow-2xl transition-all">
+          <motion.div
+            key={course.id}
+            variants={scaleIn}
+            whileHover={{ y: -10, scale: 1.02 }}
+            className="group bg-white rounded-3xl border border-slate-100 overflow-hidden hover:shadow-2xl transition-all"
+          >
             <div className="relative h-56">
               <img src={course.image} alt={course.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-slate-700 uppercase">
@@ -637,14 +899,18 @@ const CoursesPage = () => {
                   <span className="text-[10px] text-slate-400 uppercase font-bold">Price</span>
                   <div className="text-2xl font-black text-slate-900">${course.price}</div>
                 </div>
-                <button className="px-6 py-3 bg-indigo-50 text-indigo-600 font-bold rounded-2xl hover:bg-indigo-600 hover:text-white transition-all">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-6 py-3 bg-indigo-50 text-indigo-600 font-bold rounded-2xl hover:bg-indigo-600 hover:text-white transition-all"
+                >
                   Enroll Now
-                </button>
+                </motion.button>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       {/* NEW: Learning Paths Section */}
       <div className="bg-slate-900 rounded-[3rem] p-8 md:p-16 text-white overflow-hidden relative">
@@ -691,7 +957,7 @@ const CoursesPage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
