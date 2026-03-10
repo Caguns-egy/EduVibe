@@ -57,23 +57,23 @@ const useScrollAnimation = (threshold = 0.1) => {
 // --- Animation Variants ---
 
 const fadeInUp = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } }
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } }
 };
 
 const fadeInLeft = {
-  hidden: { opacity: 0, x: -50 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: 'easeOut' } }
+  hidden: { opacity: 0, x: -30 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: 'easeOut' } }
 };
 
 const fadeInRight = {
-  hidden: { opacity: 0, x: 50 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: 'easeOut' } }
+  hidden: { opacity: 0, x: 30 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: 'easeOut' } }
 };
 
 const scaleIn = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: 'easeOut' } }
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.3, ease: 'easeOut' } }
 };
 
 const staggerContainer = {
@@ -81,15 +81,15 @@ const staggerContainer = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.1
+      staggerChildren: 0.1,
+      delayChildren: 0.05
     }
   }
 };
 
 const staggerItem = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } }
+  hidden: { opacity: 0, y: 15 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: 'easeOut' } }
 };
 
 // --- Components ---
@@ -198,16 +198,16 @@ const Hero = () => {
           >
             <motion.button
               variants={scaleIn}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               className="px-8 py-4 bg-indigo-600 text-white font-bold rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-xl shadow-indigo-200"
             >
               Explore Courses
             </motion.button>
             <motion.button
               variants={scaleIn}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               className="px-8 py-4 bg-white border border-slate-200 text-slate-700 font-bold rounded-2xl hover:bg-slate-50 transition-all flex items-center gap-2"
             >
               <PlayCircle className="w-5 h-5 text-indigo-600" />
@@ -256,7 +256,7 @@ const Hero = () => {
           {/* Floating Stat Card */}
           <motion.div
             variants={scaleIn}
-            whileHover={{ scale: 1.05, y: -5 }}
+            whileHover={{ scale: 1.02, y: -2 }}
             className="absolute -bottom-6 -left-6 bg-white p-6 rounded-3xl shadow-xl border border-slate-100 animate-bounce-slow"
           >
             <div className="flex items-center gap-4">
@@ -333,8 +333,8 @@ const CourseGrid = () => {
             <motion.button
               key={cat}
               variants={scaleIn}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               className="px-4 py-2 text-sm font-medium rounded-xl border border-slate-200 hover:bg-slate-900 hover:text-white transition-all"
             >
               {cat}
@@ -350,7 +350,7 @@ const CourseGrid = () => {
           <motion.div
             key={idx}
             variants={scaleIn}
-            whileHover={{ y: -10, scale: 1.02 }}
+            whileHover={{ y: -5, scale: 1.01 }}
           >
             <CourseCard {...course} />
           </motion.div>
@@ -377,7 +377,7 @@ const Features = () => {
       >
         <motion.div
           variants={scaleIn}
-          whileHover={{ scale: 1.05, y: -5 }}
+          whileHover={{ scale: 1.02, y: -2 }}
           className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
         >
           <motion.div
@@ -402,7 +402,7 @@ const Features = () => {
 
         <motion.div
           variants={scaleIn}
-          whileHover={{ scale: 1.05, y: -5 }}
+          whileHover={{ scale: 1.02, y: -2 }}
           className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
         >
           <motion.div
@@ -427,7 +427,7 @@ const Features = () => {
 
         <motion.div
           variants={scaleIn}
-          whileHover={{ scale: 1.05, y: -5 }}
+          whileHover={{ scale: 1.02, y: -2 }}
           className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
         >
           <motion.div
@@ -505,16 +505,16 @@ const HomePage = () => {
         >
           <motion.button
             variants={scaleIn}
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             className="px-10 py-4 bg-indigo-600 text-white font-bold rounded-2xl shadow-xl shadow-indigo-100 hover:-translate-y-1 transition-all"
           >
             Join EduVibe Now
           </motion.button>
           <motion.button
             variants={scaleIn}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             className="px-10 py-4 bg-slate-100 text-slate-900 font-bold rounded-2xl hover:bg-slate-200 transition-all"
           >
             View Curriculum
@@ -836,8 +836,8 @@ const CoursesPage = () => {
             <motion.button
               key={cat}
               variants={scaleIn}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => setFilter(cat)}
               className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${filter === cat
                 ? 'bg-indigo-600 text-white'
@@ -876,7 +876,7 @@ const CoursesPage = () => {
           <motion.div
             key={course.id}
             variants={scaleIn}
-            whileHover={{ y: -10, scale: 1.02 }}
+            whileHover={{ y: -5, scale: 1.01 }}
             className="group bg-white rounded-3xl border border-slate-100 overflow-hidden hover:shadow-2xl transition-all"
           >
             <div className="relative h-56">
@@ -900,8 +900,8 @@ const CoursesPage = () => {
                   <div className="text-2xl font-black text-slate-900">${course.price}</div>
                 </div>
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   className="px-6 py-3 bg-indigo-50 text-indigo-600 font-bold rounded-2xl hover:bg-indigo-600 hover:text-white transition-all"
                 >
                   Enroll Now
