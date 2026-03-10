@@ -30,6 +30,10 @@ import {
 
 // --- Components ---
 
+const FloatingOrb = ({ className }) => (
+  <div className={`absolute rounded-full blur-3xl ${className}`} />
+);
+
 const Navbar = ({ currentPath, setPath }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -54,10 +58,10 @@ const Navbar = ({ currentPath, setPath }) => {
       </div>
 
       <div className="flex items-center gap-4">
-        <button onClick={() => setPath('login')} className="hidden sm:block px-5 py-2 text-sm font-semibold text-indigo-600 hover:bg-indigo-50 rounded-full transition-all">
+        <button onClick={() => { setPath('auth'); setView('login'); }} className="hidden sm:block px-5 py-2 text-sm font-semibold text-indigo-600 hover:bg-indigo-50 rounded-full transition-all">
           Log in
         </button>
-        <button onClick={() => setPath('signup')} className="px-6 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-full shadow-lg shadow-indigo-200 transition-all">
+        <button onClick={() => { setPath('auth'); setView('signup'); }} className="px-6 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-full shadow-lg shadow-indigo-200 transition-all">
           Join Free
         </button>
         <button onClick={() => setIsOpen(!isOpen)} className="md:hidden p-2 text-slate-600 hover:text-indigo-600 transition-colors">
@@ -75,8 +79,8 @@ const Navbar = ({ currentPath, setPath }) => {
             <button onClick={() => { setPath('about'); setIsOpen(false); }} className={`text-left hover:text-indigo-600 transition-colors ${currentPath === 'about' ? 'text-indigo-600' : 'text-slate-600'}`}>About</button>
             <button onClick={() => { setPath('blog'); setIsOpen(false); }} className={`text-left hover:text-indigo-600 transition-colors ${currentPath === 'blog' ? 'text-indigo-600' : 'text-slate-600'}`}>Blog</button>
             <div className="border-t pt-4 space-y-2">
-              <button onClick={() => { setPath('login'); setIsOpen(false); }} className="block w-full text-left px-4 py-2 text-slate-600 hover:text-indigo-600 transition-colors">Log in</button>
-              <button onClick={() => { setPath('signup'); setIsOpen(false); }} className="block w-full px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-all">Join Free</button>
+              <button onClick={() => { setPath('auth'); setView('login'); setIsOpen(false); }} className="block w-full text-left px-4 py-2 text-slate-600 hover:text-indigo-600 transition-colors">Log in</button>
+              <button onClick={() => { setPath('auth'); setView('signup'); setIsOpen(false); }} className="block w-full px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-all">Join Free</button>
             </div>
           </div>
         </div>
@@ -542,137 +546,6 @@ const BlogPage = () => {
   );
 };
 
-// --- Page: Login ---
-
-const LoginPage = ({ setPath }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-white flex items-center justify-center px-4">
-      <div className="max-w-md w-full bg-white rounded-3xl shadow-2xl p-8 border border-slate-100">
-        <div className="text-center mb-8">
-          <div className="bg-indigo-600 p-3 rounded-2xl w-fit mx-auto mb-4">
-            <BookOpen className="text-white w-8 h-8" />
-          </div>
-          <h1 className="text-3xl font-black text-slate-800 mb-2">Welcome Back</h1>
-          <p className="text-slate-600">Sign in to your EduVibe account</p>
-        </div>
-        
-        <form className="space-y-6">
-          <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">Email</label>
-            <input 
-              type="email" 
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-              placeholder="you@example.com"
-            />
-          </div>
-          
-          <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">Password</label>
-            <input 
-              type="password" 
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-              placeholder="••••••••"
-            />
-          </div>
-          
-          <div className="flex items-center justify-between">
-            <label className="flex items-center">
-              <input type="checkbox" className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
-              <span className="ml-2 text-sm text-slate-600">Remember me</span>
-            </label>
-            <a href="#" className="text-sm text-indigo-600 hover:text-indigo-700 font-medium">Forgot password?</a>
-          </div>
-          
-          <button type="submit" className="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-200">
-            Sign In
-          </button>
-        </form>
-        
-        <div className="mt-8 text-center">
-          <p className="text-slate-600">Don't have an account? <button onClick={() => setPath('signup')} className="text-indigo-600 font-semibold hover:text-indigo-700">Sign up</button></p>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// --- Page: Signup ---
-
-const SignupPage = ({ setPath }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-white flex items-center justify-center px-4">
-      <div className="max-w-md w-full bg-white rounded-3xl shadow-2xl p-8 border border-slate-100">
-        <div className="text-center mb-8">
-          <div className="bg-indigo-600 p-3 rounded-2xl w-fit mx-auto mb-4">
-            <BookOpen className="text-white w-8 h-8" />
-          </div>
-          <h1 className="text-3xl font-black text-slate-800 mb-2">Join EduVibe</h1>
-          <p className="text-slate-600">Start your learning journey today</p>
-        </div>
-        
-        <form className="space-y-6">
-          <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">Full Name</label>
-            <input 
-              type="text" 
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-              placeholder="John Doe"
-            />
-          </div>
-          
-          <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">Email</label>
-            <input 
-              type="email" 
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-              placeholder="you@example.com"
-            />
-          </div>
-          
-          <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">Password</label>
-            <input 
-              type="password" 
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-              placeholder="••••••••"
-            />
-          </div>
-          
-          <div className="flex items-center">
-            <input type="checkbox" className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
-            <span className="ml-2 text-sm text-slate-600">I agree to the <a href="#" className="text-indigo-600 hover:text-indigo-700">Terms of Service</a> and <a href="#" className="text-indigo-600 hover:text-indigo-700">Privacy Policy</a></span>
-          </div>
-          
-          <button type="submit" className="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-200">
-            Create Account
-          </button>
-        </form>
-        
-        <div className="mt-8 text-center">
-          <p className="text-slate-600">Already have an account? <button onClick={() => setPath('login')} className="text-indigo-600 font-semibold hover:text-indigo-700">Sign in</button></p>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 // --- Page: Courses (Expanded) ---
 
 const CoursesPage = () => {
@@ -1107,6 +980,7 @@ const ResourcesPage = () => {
 
 export default function App() {
   const [path, setPath] = useState('home');
+  const [view, setView] = useState('login');
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -1120,8 +994,7 @@ export default function App() {
       case 'resources': return <ResourcesPage />;
       case 'about': return <AboutPage />;
       case 'blog': return <BlogPage />;
-      case 'login': return <LoginPage setPath={setPath} />;
-      case 'signup': return <SignupPage setPath={setPath} />;
+      case 'auth': return <AuthPage view={view} setView={setView} setPath={setPath} />;
       default: return <HomePage />;
     }
   };
@@ -1148,7 +1021,30 @@ export default function App() {
 }
 
 
+<<<<<<< HEAD
 return (
+=======
+
+const AuthPage = ({ view, setView, setPath }) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e) => {
+    setMousePos({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      setPath('home');
+    }, 1800);
+  };
+
+  return (
+>>>>>>> d3b083d (Integrate user's custom AuthPage for login/signup)
     <div 
       onMouseMove={handleMouseMove}
       className="min-h-screen bg-slate-950 flex flex-col lg:flex-row overflow-hidden font-sans selection:bg-indigo-500 selection:text-white"
@@ -1324,4 +1220,9 @@ return (
         </div>
       </div>
     </div>
+<<<<<<< HEAD
   );
+=======
+  );
+};
+>>>>>>> d3b083d (Integrate user's custom AuthPage for login/signup)
