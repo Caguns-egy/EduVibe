@@ -54,10 +54,10 @@ const Navbar = ({ currentPath, setPath }) => {
       </div>
 
       <div className="flex items-center gap-4">
-        <button className="hidden sm:block px-5 py-2 text-sm font-semibold text-indigo-600 hover:bg-indigo-50 rounded-full transition-all">
+        <button onClick={() => setPath('login')} className="hidden sm:block px-5 py-2 text-sm font-semibold text-indigo-600 hover:bg-indigo-50 rounded-full transition-all">
           Log in
         </button>
-        <button className="px-6 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-full shadow-lg shadow-indigo-200 transition-all">
+        <button onClick={() => setPath('signup')} className="px-6 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-full shadow-lg shadow-indigo-200 transition-all">
           Join Free
         </button>
         <button onClick={() => setIsOpen(!isOpen)} className="md:hidden p-2 text-slate-600 hover:text-indigo-600 transition-colors">
@@ -75,8 +75,8 @@ const Navbar = ({ currentPath, setPath }) => {
             <button onClick={() => { setPath('about'); setIsOpen(false); }} className={`text-left hover:text-indigo-600 transition-colors ${currentPath === 'about' ? 'text-indigo-600' : 'text-slate-600'}`}>About</button>
             <button onClick={() => { setPath('blog'); setIsOpen(false); }} className={`text-left hover:text-indigo-600 transition-colors ${currentPath === 'blog' ? 'text-indigo-600' : 'text-slate-600'}`}>Blog</button>
             <div className="border-t pt-4 space-y-2">
-              <button className="block w-full text-left px-4 py-2 text-slate-600 hover:text-indigo-600 transition-colors">Log in</button>
-              <button className="block w-full px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-all">Join Free</button>
+              <button onClick={() => { setPath('login'); setIsOpen(false); }} className="block w-full text-left px-4 py-2 text-slate-600 hover:text-indigo-600 transition-colors">Log in</button>
+              <button onClick={() => { setPath('signup'); setIsOpen(false); }} className="block w-full px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-all">Join Free</button>
             </div>
           </div>
         </div>
@@ -542,6 +542,137 @@ const BlogPage = () => {
   );
 };
 
+// --- Page: Login ---
+
+const LoginPage = ({ setPath }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-white flex items-center justify-center px-4">
+      <div className="max-w-md w-full bg-white rounded-3xl shadow-2xl p-8 border border-slate-100">
+        <div className="text-center mb-8">
+          <div className="bg-indigo-600 p-3 rounded-2xl w-fit mx-auto mb-4">
+            <BookOpen className="text-white w-8 h-8" />
+          </div>
+          <h1 className="text-3xl font-black text-slate-800 mb-2">Welcome Back</h1>
+          <p className="text-slate-600">Sign in to your EduVibe account</p>
+        </div>
+        
+        <form className="space-y-6">
+          <div>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">Email</label>
+            <input 
+              type="email" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+              placeholder="you@example.com"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">Password</label>
+            <input 
+              type="password" 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+              placeholder="••••••••"
+            />
+          </div>
+          
+          <div className="flex items-center justify-between">
+            <label className="flex items-center">
+              <input type="checkbox" className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+              <span className="ml-2 text-sm text-slate-600">Remember me</span>
+            </label>
+            <a href="#" className="text-sm text-indigo-600 hover:text-indigo-700 font-medium">Forgot password?</a>
+          </div>
+          
+          <button type="submit" className="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-200">
+            Sign In
+          </button>
+        </form>
+        
+        <div className="mt-8 text-center">
+          <p className="text-slate-600">Don't have an account? <button onClick={() => setPath('signup')} className="text-indigo-600 font-semibold hover:text-indigo-700">Sign up</button></p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// --- Page: Signup ---
+
+const SignupPage = ({ setPath }) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-white flex items-center justify-center px-4">
+      <div className="max-w-md w-full bg-white rounded-3xl shadow-2xl p-8 border border-slate-100">
+        <div className="text-center mb-8">
+          <div className="bg-indigo-600 p-3 rounded-2xl w-fit mx-auto mb-4">
+            <BookOpen className="text-white w-8 h-8" />
+          </div>
+          <h1 className="text-3xl font-black text-slate-800 mb-2">Join EduVibe</h1>
+          <p className="text-slate-600">Start your learning journey today</p>
+        </div>
+        
+        <form className="space-y-6">
+          <div>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">Full Name</label>
+            <input 
+              type="text" 
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+              placeholder="John Doe"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">Email</label>
+            <input 
+              type="email" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+              placeholder="you@example.com"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">Password</label>
+            <input 
+              type="password" 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+              placeholder="••••••••"
+            />
+          </div>
+          
+          <div className="flex items-center">
+            <input type="checkbox" className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+            <span className="ml-2 text-sm text-slate-600">I agree to the <a href="#" className="text-indigo-600 hover:text-indigo-700">Terms of Service</a> and <a href="#" className="text-indigo-600 hover:text-indigo-700">Privacy Policy</a></span>
+          </div>
+          
+          <button type="submit" className="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-200">
+            Create Account
+          </button>
+        </form>
+        
+        <div className="mt-8 text-center">
+          <p className="text-slate-600">Already have an account? <button onClick={() => setPath('login')} className="text-indigo-600 font-semibold hover:text-indigo-700">Sign in</button></p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // --- Page: Courses (Expanded) ---
 
 const CoursesPage = () => {
@@ -989,6 +1120,8 @@ export default function App() {
       case 'resources': return <ResourcesPage />;
       case 'about': return <AboutPage />;
       case 'blog': return <BlogPage />;
+      case 'login': return <LoginPage setPath={setPath} />;
+      case 'signup': return <SignupPage setPath={setPath} />;
       default: return <HomePage />;
     }
   };
@@ -1013,3 +1146,182 @@ export default function App() {
     </div>
   );
 }
+
+
+return (
+    <div 
+      onMouseMove={handleMouseMove}
+      className="min-h-screen bg-slate-950 flex flex-col lg:flex-row overflow-hidden font-sans selection:bg-indigo-500 selection:text-white"
+    >
+      {/* Interactive Background Glow (Follows Mouse) */}
+      <div 
+        className="hidden lg:block pointer-events-none fixed inset-0 z-0 transition-opacity duration-500 opacity-30"
+        style={{
+          background: `radial-gradient(circle 600px at ${mousePos.x}px ${mousePos.y}px, rgba(79, 70, 229, 0.15), transparent)`
+        }}
+      />
+
+      {/* Left Side: Creative Sidebar */}
+      <div className="hidden lg:flex lg:w-[42%] p-16 flex-col justify-between relative bg-slate-900 border-r border-white/5">
+        <div className="absolute inset-0 overflow-hidden">
+           <FloatingOrb className="w-[500px] h-[500px] bg-indigo-600 -top-40 -left-20 opacity-30" />
+           <FloatingOrb className="w-[400px] h-[400px] bg-violet-500 bottom-0 right-0 opacity-20" />
+           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
+        </div>
+        
+        <div className="relative z-10 flex items-center gap-3 cursor-pointer group" onClick={() => setPath('home')}>
+          <div className="bg-indigo-600 p-2.5 rounded-2xl shadow-2xl shadow-indigo-500/20 group-hover:scale-110 transition-transform">
+            <BookOpen className="text-white w-6 h-6" />
+          </div>
+          <span className="text-2xl font-black text-white tracking-tighter italic">EduVibe<span className="text-indigo-500">.</span></span>
+        </div>
+
+        <div className="relative z-10 space-y-8">
+          <div className="space-y-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-[0.2em]">
+              <Fingerprint className="w-3 h-3" /> Secure Access
+            </div>
+            <h2 className="text-6xl font-black text-white leading-[1] tracking-tighter">
+              Level up <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-400">your career</span> <br />
+              with EduVibe.
+            </h2>
+          </div>
+
+          {/* Dynamic Social Proof Box */}
+          <div className="p-6 rounded-[2rem] bg-white/5 border border-white/10 backdrop-blur-xl space-y-6">
+            <div className="flex items-center justify-between">
+              <div className="flex -space-x-3">
+                {[1,2,3].map(i => (
+                  <img key={i} src={`https://i.pravatar.cc/100?img=${i+20}`} className="w-10 h-10 rounded-full border-2 border-slate-900 shadow-xl" alt="user" />
+                ))}
+                <div className="w-10 h-10 rounded-full bg-slate-800 border-2 border-slate-900 flex items-center justify-center text-[10px] font-bold text-indigo-400">+12k</div>
+              </div>
+              <div className="flex items-center gap-2 text-green-400 text-[10px] font-black uppercase tracking-widest animate-pulse">
+                <div className="w-1.5 h-1.5 rounded-full bg-green-400" /> 842 Online
+              </div>
+            </div>
+            <div className="space-y-1">
+              <p className="text-white font-bold text-sm">"The curriculum is insane."</p>
+              <p className="text-slate-500 text-xs">Alex Chen • Senior Engineer @ Vercel</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="relative z-10 flex justify-between items-center text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">
+          <span>Global Campus</span>
+          <div className="flex gap-4">
+            <Twitter className="w-4 h-4 hover:text-white transition-colors cursor-pointer" />
+            <Github className="w-4 h-4 hover:text-white transition-colors cursor-pointer" />
+          </div>
+        </div>
+      </div>
+
+      {/* Right Side: Creative Form Container */}
+      <div className="flex-1 flex items-center justify-center p-6 sm:p-12 bg-white relative overflow-y-auto">
+        <div className="w-full max-w-lg animate-in fade-in slide-in-from-right-8 duration-700">
+          <div className="flex justify-between items-center mb-12">
+            <button 
+              onClick={() => setPath('home')}
+              className="group inline-flex items-center gap-2 text-slate-400 hover:text-indigo-600 font-bold text-xs uppercase tracking-widest transition-all"
+            >
+              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Exit
+            </button>
+            <div className="text-[10px] font-black text-slate-300 uppercase tracking-widest">Step 01 / 02</div>
+          </div>
+
+          <div className="mb-12">
+            <h1 className="text-5xl font-black text-slate-900 tracking-tighter mb-4">
+              {view === 'login' ? 'Welcome back, Chief.' : 'Join the Elite.'}
+            </h1>
+            <p className="text-slate-500 font-medium leading-relaxed text-lg">
+              {view === 'login' 
+                ? 'Resume your learning path and build something great.' 
+                : 'Get instant access to 200+ premium industry tracks.'}
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {view === 'signup' && (
+              <div className="space-y-3 group">
+                <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 group-focus-within:text-indigo-600 transition-colors ml-2">Identity</label>
+                <div className="relative">
+                  <User className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-indigo-600 transition-all group-focus-within:scale-110" />
+                  <input 
+                    type="text" 
+                    placeholder="Full Name" 
+                    required 
+                    className="w-full pl-16 pr-6 py-1 rounded-[2rem] bg-slate-50 border-2 border-transparent focus:border-indigo-600 focus:bg-white focus:outline-none transition-all font-semibold text-lg text-slate-900 shadow-sm focus:shadow-xl focus:shadow-indigo-500/5" 
+                  />
+                </div>
+              </div>
+            )}
+
+            <div className="space-y-3 group">
+              <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 group-focus-within:text-indigo-600 transition-colors ml-2">Network Address</label>
+              <div className="relative">
+                <Mail className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-6 text-slate-300 group-focus-within:text-indigo-600 transition-all group-focus-within:scale-110" />
+                <input 
+                  type="email" 
+                  placeholder="email@address.com" 
+                  required 
+                  className="w-full pl-16 pr-6 py-1 rounded-[2rem] bg-slate-50 border-2 border-transparent focus:border-indigo-600 focus:bg-white focus:outline-none transition-all font-semibold text-lg text-slate-900 shadow-sm focus:shadow-xl focus:shadow-indigo-500/5" 
+                />
+              </div>
+            </div>
+
+            <div className="space-y-3 group">
+              <div className="flex justify-between items-center">
+                <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 group-focus-within:text-indigo-600 transition-colors ml-2">Security Key</label>
+                {view === 'login' && <button type="button" className="text-[10px] font-black uppercase text-indigo-600 hover:underline">Reset Key?</button>}
+              </div>
+              <div className="relative">
+                <Lock className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-slate-300 group-focus-within:text-indigo-600 transition-all group-focus-within:scale-110" />
+                <input 
+                  type={showPassword ? "text" : "password"} 
+                  placeholder="••••••••" 
+                  required 
+                  className="w-full pl-16 pr-14 py-1 rounded-[2rem] bg-slate-50 border-2 border-transparent focus:border-indigo-600 focus:bg-white focus:outline-none transition-all font-semibold text-lg text-slate-900 shadow-sm focus:shadow-xl focus:shadow-indigo-500/5" 
+                />
+                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 hover:text-indigo-600 transition-colors">
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+              </div>
+            </div>
+
+            <button disabled={isLoading} className="group relative w-full overflow-hidden py-6 bg-slate-900 text-white font-black uppercase tracking-[0.2em] text-xs rounded-[2rem] shadow-2xl shadow-slate-200 transition-all active:scale-[0.98] mt-4">
+              <div className="absolute inset-0 w-0 bg-indigo-600 transition-all duration-500 group-hover:w-full" />
+              <span className="relative z-10 flex items-center justify-center gap-3">
+                {isLoading ? (
+                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : (
+                  <> {view === 'login' ? 'Initialize Session' : 'Create Credentials'} <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /> </>
+                )}
+              </span>
+            </button>
+          </form>
+
+          <div className="relative my-14">
+            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-slate-100"></div></div>
+            <div className="relative flex justify-center text-[10px] uppercase tracking-[0.4em] font-black text-slate-200 bg-white px-6">Cloud Bridge</div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-6">
+            <button className="flex items-center justify-center gap-3 py-5 border-2 border-slate-50 rounded-[2rem] hover:bg-slate-50 hover:border-slate-100 transition-all font-bold text-[11px] uppercase tracking-widest text-slate-500">
+              <Github className="w-5 h-5" /> Github
+            </button>
+            <button className="flex items-center justify-center gap-3 py-5 border-2 border-slate-50 rounded-[2rem] hover:bg-slate-50 hover:border-slate-100 transition-all font-bold text-[11px] uppercase tracking-widest text-slate-500">
+              <Globe className="w-5 h-5" /> Google
+            </button>
+          </div>
+
+          <p className="text-center mt-16 text-base font-bold text-slate-400">
+            {view === 'login' ? "New operative?" : "Already part of the network?"}
+            <button onClick={() => setView(view === 'login' ? 'signup' : 'login')} className="ml-2 text-indigo-600 hover:underline transition-colors decoration-2 underline-offset-4">
+              {view === 'login' ? 'Register Now' : 'Log In'}
+            </button>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
