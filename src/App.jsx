@@ -3,6 +3,7 @@ import {
   BookOpen,
   Layout,
   Users,
+  User,
   Award,
   Search,
   Bell,
@@ -19,6 +20,7 @@ import {
   Book,
   Video,
   ArrowRight,
+  ArrowLeft,
   HelpCircle,
   Menu,
   X,
@@ -64,14 +66,17 @@ const Navbar = ({ currentPath, setPath, setView }) => {
         <button onClick={() => setPath('blog')} className={`hover:text-indigo-600 transition-colors ${currentPath === 'blog' ? 'text-indigo-600' : ''}`}>Blog</button>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="hidden md:flex items-center gap-4">
         <button onClick={() => { console.log('Log in clicked'); setPath('auth'); setView('login'); }} className="px-5 py-2 text-sm font-semibold text-indigo-600 hover:bg-indigo-50 rounded-full transition-all">
           Log in
         </button>
         <button onClick={() => { setPath('auth'); setView('signup'); }} className="px-6 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-full shadow-lg shadow-indigo-200 transition-all">
           Join Free
         </button>
-        <button onClick={() => setIsOpen(!isOpen)} className="md:hidden p-2 text-slate-600 hover:text-indigo-600 transition-colors">
+      </div>
+
+      <div className="flex md:hidden items-center">
+        <button onClick={() => setIsOpen(!isOpen)} className="p-2 text-slate-600 hover:text-indigo-600 transition-colors">
           {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
@@ -422,7 +427,7 @@ const AboutPage = () => (
 
 const BlogPage = () => {
   const [activeCategory, setActiveCategory] = useState('All');
-  
+
   const categories = ['All', 'Trends', 'Design', 'Dev', 'Career'];
 
   const posts = [
@@ -471,8 +476,8 @@ const BlogPage = () => {
       <div className="max-w-7xl mx-auto px-8 py-12 flex flex-col md:flex-row justify-between items-center gap-8 border-b border-slate-200">
         <div className="flex flex-wrap gap-2 justify-center">
           {categories.map(cat => (
-            <button 
-              key={cat} 
+            <button
+              key={cat}
               onClick={() => setActiveCategory(cat)}
               className={`px-6 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${activeCategory === cat ? 'bg-indigo-600 text-white shadow-lg' : 'bg-white text-slate-500 hover:bg-slate-100'}`}
             >
@@ -520,7 +525,7 @@ const BlogPage = () => {
             </div>
           ))}
         </div>
-        
+
         {/* Pagination Placeholder */}
         <div className="mt-20 flex justify-center items-center gap-4">
           <button className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-indigo-600 transition-colors"><ChevronRight className="w-4 h-4 rotate-180" /></button>
@@ -585,8 +590,8 @@ const CoursesPage = () => {
               key={cat}
               onClick={() => setFilter(cat)}
               className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${filter === cat
-                  ? 'bg-indigo-600 text-white'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                ? 'bg-indigo-600 text-white'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                 }`}
             >
               {cat}
@@ -1009,11 +1014,11 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white font-sans selection:bg-indigo-100 selection:text-indigo-700">
-      <Navbar currentPath={path} setPath={setPath} setView={setView} />
+      {path !== 'auth' && <Navbar currentPath={path} setPath={setPath} setView={setView} />}
       <main className="animate-in fade-in slide-in-from-bottom-2 duration-500">
         {renderContent()}
       </main>
-      <Footer />
+      {path !== 'auth' && <Footer />}
 
       <style>{`
         @keyframes bounce-slow {
@@ -1028,10 +1033,6 @@ export default function App() {
   );
 }
 
-
-<<<<<<< HEAD
-return (
-=======
 
 const AuthPage = ({ view, setView, setPath }) => {
   console.log('AuthPage rendered with view:', view);
@@ -1053,15 +1054,14 @@ const AuthPage = ({ view, setView, setPath }) => {
   };
 
   return (
->>>>>>> d3b083d (Integrate user's custom AuthPage for login/signup)
-    <div 
+    <div
       onMouseMove={handleMouseMove}
       className="min-h-screen bg-slate-950 flex flex-col lg:flex-row overflow-hidden font-sans selection:bg-indigo-500 selection:text-white"
-      style={{background: 'black', color: 'white'}}
+      style={{ background: 'black', color: 'white' }}
     >
-      <h1 style={{color: 'black'}}>Auth Page Loaded</h1>
+      <h1 style={{ color: 'black' }}>Auth Page Loaded</h1>
       {/* Interactive Background Glow (Follows Mouse) */}
-      <div 
+      <div
         className="hidden lg:block pointer-events-none fixed inset-0 z-0 transition-opacity duration-500 opacity-30"
         style={{
           background: `radial-gradient(circle 600px at ${mousePos.x}px ${mousePos.y}px, rgba(79, 70, 229, 0.15), transparent)`
@@ -1071,11 +1071,11 @@ const AuthPage = ({ view, setView, setPath }) => {
       {/* Left Side: Creative Sidebar */}
       <div className="hidden lg:flex lg:w-[42%] p-16 flex-col justify-between relative bg-slate-900 border-r border-white/5">
         <div className="absolute inset-0 overflow-hidden">
-           <FloatingOrb className="w-[500px] h-[500px] bg-indigo-600 -top-40 -left-20 opacity-30" />
-           <FloatingOrb className="w-[400px] h-[400px] bg-violet-500 bottom-0 right-0 opacity-20" />
-           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
+          <FloatingOrb className="w-[500px] h-[500px] bg-indigo-600 -top-40 -left-20 opacity-30" />
+          <FloatingOrb className="w-[400px] h-[400px] bg-violet-500 bottom-0 right-0 opacity-20" />
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
         </div>
-        
+
         <div className="relative z-10 flex items-center gap-3 cursor-pointer group" onClick={() => setPath('home')}>
           <div className="bg-indigo-600 p-2.5 rounded-2xl shadow-2xl shadow-indigo-500/20 group-hover:scale-110 transition-transform">
             <BookOpen className="text-white w-6 h-6" />
@@ -1099,8 +1099,8 @@ const AuthPage = ({ view, setView, setPath }) => {
           <div className="p-6 rounded-[2rem] bg-white/5 border border-white/10 backdrop-blur-xl space-y-6">
             <div className="flex items-center justify-between">
               <div className="flex -space-x-3">
-                {[1,2,3].map(i => (
-                  <img key={i} src={`https://i.pravatar.cc/100?img=${i+20}`} className="w-10 h-10 rounded-full border-2 border-slate-900 shadow-xl" alt="user" />
+                {[1, 2, 3].map(i => (
+                  <img key={i} src={`https://i.pravatar.cc/100?img=${i + 20}`} className="w-10 h-10 rounded-full border-2 border-slate-900 shadow-xl" alt="user" />
                 ))}
                 <div className="w-10 h-10 rounded-full bg-slate-800 border-2 border-slate-900 flex items-center justify-center text-[10px] font-bold text-indigo-400">+12k</div>
               </div>
@@ -1128,7 +1128,7 @@ const AuthPage = ({ view, setView, setPath }) => {
       <div className="flex-1 flex items-center justify-center p-6 sm:p-12 bg-white relative overflow-y-auto">
         <div className="w-full max-w-lg animate-in fade-in slide-in-from-right-8 duration-700">
           <div className="flex justify-between items-center mb-12">
-            <button 
+            <button
               onClick={() => setPath('home')}
               className="group inline-flex items-center gap-2 text-slate-400 hover:text-indigo-600 font-bold text-xs uppercase tracking-widest transition-all"
             >
@@ -1142,8 +1142,8 @@ const AuthPage = ({ view, setView, setPath }) => {
               {view === 'login' ? 'Welcome back, Chief.' : 'Join the Elite.'}
             </h1>
             <p className="text-slate-500 font-medium leading-relaxed text-lg">
-              {view === 'login' 
-                ? 'Resume your learning path and build something great.' 
+              {view === 'login'
+                ? 'Resume your learning path and build something great.'
                 : 'Get instant access to 200+ premium industry tracks.'}
             </p>
           </div>
@@ -1154,11 +1154,11 @@ const AuthPage = ({ view, setView, setPath }) => {
                 <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 group-focus-within:text-indigo-600 transition-colors ml-2">Identity</label>
                 <div className="relative">
                   <User className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-indigo-600 transition-all group-focus-within:scale-110" />
-                  <input 
-                    type="text" 
-                    placeholder="Full Name" 
-                    required 
-                    className="w-full pl-16 pr-6 py-1 rounded-[2rem] bg-slate-50 border-2 border-transparent focus:border-indigo-600 focus:bg-white focus:outline-none transition-all font-semibold text-lg text-slate-900 shadow-sm focus:shadow-xl focus:shadow-indigo-500/5" 
+                  <input
+                    type="text"
+                    placeholder="Full Name"
+                    required
+                    className="w-full pl-16 pr-6 py-2 rounded-[2rem] bg-slate-50 border-2 border-transparent focus:border-indigo-600 focus:bg-white focus:outline-none transition-all font-semibold text-lg text-slate-900 shadow-sm focus:shadow-xl focus:shadow-indigo-500/5"
                   />
                 </div>
               </div>
@@ -1168,11 +1168,11 @@ const AuthPage = ({ view, setView, setPath }) => {
               <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 group-focus-within:text-indigo-600 transition-colors ml-2">Network Address</label>
               <div className="relative">
                 <Mail className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-6 text-slate-300 group-focus-within:text-indigo-600 transition-all group-focus-within:scale-110" />
-                <input 
-                  type="email" 
-                  placeholder="email@address.com" 
-                  required 
-                  className="w-full pl-16 pr-6 py-1 rounded-[2rem] bg-slate-50 border-2 border-transparent focus:border-indigo-600 focus:bg-white focus:outline-none transition-all font-semibold text-lg text-slate-900 shadow-sm focus:shadow-xl focus:shadow-indigo-500/5" 
+                <input
+                  type="email"
+                  placeholder="email@address.com"
+                  required
+                  className="w-full pl-16 pr-6 py-2 rounded-[2rem] bg-slate-50 border-2 border-transparent focus:border-indigo-600 focus:bg-white focus:outline-none transition-all font-semibold text-lg text-slate-900 shadow-sm focus:shadow-xl focus:shadow-indigo-500/5"
                 />
               </div>
             </div>
@@ -1184,11 +1184,11 @@ const AuthPage = ({ view, setView, setPath }) => {
               </div>
               <div className="relative">
                 <Lock className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-slate-300 group-focus-within:text-indigo-600 transition-all group-focus-within:scale-110" />
-                <input 
-                  type={showPassword ? "text" : "password"} 
-                  placeholder="••••••••" 
-                  required 
-                  className="w-full pl-16 pr-14 py-1 rounded-[2rem] bg-slate-50 border-2 border-transparent focus:border-indigo-600 focus:bg-white focus:outline-none transition-all font-semibold text-lg text-slate-900 shadow-sm focus:shadow-xl focus:shadow-indigo-500/5" 
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  required
+                  className="w-full pl-16 pr-14 py-2 rounded-[2rem] bg-slate-50 border-2 border-transparent focus:border-indigo-600 focus:bg-white focus:outline-none transition-all font-semibold text-lg text-slate-900 shadow-sm focus:shadow-xl focus:shadow-indigo-500/5"
                 />
                 <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 hover:text-indigo-600 transition-colors">
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
@@ -1200,7 +1200,7 @@ const AuthPage = ({ view, setView, setPath }) => {
               <div className="absolute inset-0 w-0 bg-indigo-600 transition-all duration-500 group-hover:w-full" />
               <span className="relative z-10 flex items-center justify-center gap-3">
                 {isLoading ? (
-                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                 ) : (
                   <> {view === 'login' ? 'Initialize Session' : 'Create Credentials'} <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /> </>
                 )}
@@ -1231,9 +1231,5 @@ const AuthPage = ({ view, setView, setPath }) => {
         </div>
       </div>
     </div>
-<<<<<<< HEAD
-  );
-=======
   );
 };
->>>>>>> d3b083d (Integrate user's custom AuthPage for login/signup)
